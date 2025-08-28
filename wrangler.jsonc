@@ -9,7 +9,14 @@
 	"compatibility_date": "2025-08-28",
 	"observability": {
 		"enabled": true
-	}
+	},
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "fingerprints-db",
+			"database_id": "f1623f33-3ab9-42ca-9071-62b74a84bc26"
+		}
+	]
 	/**
 	 * Smart Placement
 	 * Docs: https://developers.cloudflare.com/workers/configuration/smart-placement/#smart-placement
