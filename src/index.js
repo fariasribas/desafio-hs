@@ -39,7 +39,7 @@ async function handleCaptureFingerprint(request, env) {
 	const tlsCipher = request.cf?.tlsCipher ?? 'Unknown TLS Cipher';
 	const ja3Hash = request.cf?.clientJA3Hash ?? 'Unknown JA3 Hash'; // isso só vai funcionar com cloudflare enterprise ou bot management, mantive como um inclemento.
 
-	const dataToHash = `${ip}|${userAgent}|${ja3Hash}|${country}|${tlsVersion}|${tlsCipher}`;
+	const dataToHash = `${ip}|${userAgent}|${ja3Hash}|${country}|${colo}|${tlsVersion}|${tlsCipher}`;
 	const fingerprintHash = h64(dataToHash).toString(16); // isso é uma hash simples e veloz, não é criptografada.
 
 	try {
