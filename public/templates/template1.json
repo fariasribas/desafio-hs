@@ -1,4 +1,35 @@
 {
-  "heading": "Sistema de Testes",
-  "logo": "/assets/logo.png"
+	"pageTitle": "Landing Page de Testes",
+	"logo": "/public/assets/logo.png",
+	"headerTitle": "Bem-vindo à Nossa Plataforma",
+	"headerSubtitle": "Tudo que você precisa em uma única página",
+	"welcomeTitle": "Olá, visitante!",
+	"welcomeText": "Explore produtos, notícias e informações personalizadas.",
+	"userId": "user-12345",
+	"userName": "João Silva",
+	"products": [
+		{
+			"name": "Produto 1",
+			"price": "R$ 49,90",
+			"img": "/public/assets/produto1.png"
+		},
+		{
+			"name": "Produto 2",
+			"price": "R$ 79,90",
+			"img": "/public/assets/produto2.png"
+		}
+	],
+	"news": [
+		{
+			"title": "Notícia 1",
+			"summary": "Resumo da notícia 1...",
+			"link": "#"
+		},
+		{
+			"title": "Notícia 2",
+			"summary": "Resumo da notícia 2...",
+			"link": "#"
+		}
+	],
+	"footerText": "© 2025 Plataforma de Testes. Todos os direitos reservados."
 }
