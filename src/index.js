@@ -51,7 +51,7 @@ async function handleCaptureFingerprint(request, env) {
 		await stmt.bind(new Date().toISOString(), ip, userAgent, country, colo, tlsVersion, tlsCipher, ja3Hash, fingerprintHash).run();
 
 		// Aqui você pode devolver algo visível no browser
-		return new Response('Fingerprint capturado e salvo no banco!', {
+		return new Response('200', {
 			status: 200,
 			headers: { 'Content-Type': 'text/plain' },
 		});
@@ -99,7 +99,7 @@ async function handleListFingerprints(request, env) {
 /**
  * Auxiliar de autenticação
  */
-function showAuthPopup(message = 'Acesso restrito. Por favor, autentique-se.') {
+function showAuthPopup(message = 'Acesso restrito.') {
 	return new Response(message, {
 		status: 401,
 		headers: { 'WWW-Authenticate': 'Basic realm="Área Administrativa da API"' },
