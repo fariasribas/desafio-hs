@@ -53,7 +53,7 @@ async function handleCaptureFingerprint(request, env) {
 		// mostra apenas status 200 ao pegar fingerprint, pode ser feito um front-end encima disso.
 		return new Response('200', {
 			status: 200,
-			headers: { 'Content-Type': 'text/plain' },
+			headers: { 'Content-Type': 'application/json' },
 		});
 	} catch (e) {
 		console.error('Erro no D1:', e); // teste se está salvando no banco de dados
