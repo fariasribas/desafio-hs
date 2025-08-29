@@ -1,6 +1,4 @@
 {
-    "heading": "Meu Sistema",
-    "logo": "/assets/logo.png",
-    "description": "Bem-vindo ao sistema de exemplo com Handlebars e Workers."
-  }
-  
+  "heading": "Sistema de Testes",
+  "logo": "/assets/logo.png"
+}

@@ -1,36 +1,21 @@
-// Este script roda no browser e renderiza a página usando Handlebars
+function getFingerprint() {
+	return 'user-' + Math.floor(Math.random() * 100000);
+}
+
 async function renderPage() {
 	try {
-		// Pega o template HTML
-		const htmlRes = await fetch('/index.html');
-		const html = await htmlRes.text();
+		const res = await fetch('/public/templates/template1.json');
+		const data = await res.json();
 
-		// Pega o JSON com dados
-		const jsonRes = await fetch('/templates/template1.json');
-		const data = await jsonRes.json();
+		// Adiciona fingerprint
+		data.userId = getFingerprint();
 
-		// Compila Handlebars e injeta na página
-		const template = Handlebars.compile(html);
-		const rendered = template(data);
-
-		// Substitui o body inteiro
-		document.open();
-		document.write(rendered);
-		document.close();
-
-		/*
-      // Alternativa fetch externo JSON (descomente se quiser usar)
-      const externalRes = await fetch('https://meusite.com/templates/template1.json');
-      const externalData = await externalRes.json();
-      const renderedExternal = Handlebars.compile(html)(externalData);
-      document.open();
-      document.write(renderedExternal);
-      document.close();
-      */
+		// Processa o body inteiro com Handlebars
+		const template = Handlebars.compile(document.body.innerHTML);
+		document.body.innerHTML = template(data);
 	} catch (e) {
-		console.error('Erro ao renderizar página:', e);
+		console.error('Erro ao renderizar JSON:', e);
 	}
 }
 
-// Chama a função ao carregar o script
 renderPage();
