@@ -96,6 +96,6 @@ async function handleListFingerprints(request, env) {
 function showAuthPopup(message = 'Acesso restrito.') {
 	return new Response(message, {
 		status: 401,
-		headers: { 'WWW-Authenticate': 'Basic realm="Área Administrativa da API"' },
+		headers: { 'WWW-Authenticate': 'Basic realm="Área Administrativa da API"' }, //testa e retorna se deve dar um gatekeeping ou nao
 	});
 }
