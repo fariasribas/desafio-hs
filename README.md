@@ -1,8 +1,5 @@
 # 🕵️ Advanced Fingerprinting with Cloudflare Workers
 
-![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
-![Built with Cloudflare](https://img.shields.io/badge/Built_with-Cloudflare-orange)
-
 Um sistema robusto e de alta performance para captura de *fingerprints* de usuários, construído sobre a stack da Cloudflare (Workers, D1 Database) e projetado para ser flexível e difícil de burlar.
 
 O projeto utiliza uma arquitetura de camada dupla, combinando dados coletados no back-end (Edge) com informações ricas do front-end (navegador) para gerar um identificador único de 128 bits para cada sessão.
