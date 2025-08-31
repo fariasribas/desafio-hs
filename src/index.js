@@ -1,12 +1,3 @@
-// Importa o hash (para gerar fingerprint único)
-import xxhash from 'xxhash-wasm';
-
-// PRECISA VER ISSO DE NAO TA SALVANDO EM BANCO DE DADOS DE RESTO PARECE QUE VAI FUNCIONAR
-// PEGAR CODIGO QUE AJEITA O  / FICAR COMO INDEX E DEPOIS CONFIGURAR BINDING DOS FINGERPRINT
-
-// Inicializa o WASM e extrai h64
-const { h64 } = await xxhash();
-
 export default {
 	async fetch(request, env, ctx) {
 		const url = new URL(request.url);
@@ -44,11 +35,14 @@ async function handleCaptureFingerprint(request, env) {
 	const ja3Hash = request.cf?.clientJA3Hash ?? 'Unknown JA3 Hash';
 
 	const workerDataToHash = `${ip}|${userAgent}|${ja3Hash}|${country}|${colo}|${tlsVersion}|${tlsCipher}`;
-	const workerHash = h64(workerDataToHash).toString(16);
+	// AGORA (com SHA-256):
+	const workerHash = await createSha256Hash(workerDataToHash);
 
 	const frontData = await request.json();
-	const frontHash = h64(JSON.stringify(frontData)).toString(16);
-	const captureHash = h64(workerHash + frontHash).toString(16);
+	// AGORA (com SHA-256):
+	const frontHash = await createSha256Hash(JSON.stringify(frontData));
+	// AGORA (com SHA-256):
+	const captureHash = await createSha256Hash(workerHash + frontHash);
 
 	// Prepare stmt para inserir no DB - NOMES DAS COLUNAS CORRIGIDOS
 	const stmt = env.DB.prepare(`
@@ -161,4 +155,13 @@ function showAuthPopup(message = 'Acesso restrito.') {
 		status: 401,
 		headers: { 'WWW-Authenticate': 'Basic realm="Área Administrativa da API"' }, //testa e retorna se deve dar um gatekeeping ou nao
 	});
+}
+
+async function createSha256Hash(text) {
+	const encoder = new TextEncoder();
+	const data = encoder.encode(text);
+	const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+	const hashArray = Array.from(new Uint8Array(hashBuffer));
+	// Converte o buffer de bytes para uma string hexadecimal
+	return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
 }
