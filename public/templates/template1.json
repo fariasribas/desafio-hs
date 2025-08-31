@@ -11,12 +11,12 @@
 		{
 			"name": "Produto 1",
 			"price": "R$ 49,90",
-			"img": "/public/assets/produto1.png"
+			"img": "/assets/produto1.png"
 		},
 		{
 			"name": "Produto 2",
 			"price": "R$ 79,90",
-			"img": "/public/assets/produto2.png"
+			"img": "/assets/produto2.png"
 		}
 	],
 	"news": [
