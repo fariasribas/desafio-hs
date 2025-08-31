@@ -38,7 +38,7 @@ async function getAdvancedFingerprintData() {
 		audioFingerprint: await getAudioFingerprint(),
 	};
 
-	data.advancedHash = hashString(JSON.stringify(data));
+	data.testHash = hashString(JSON.stringify(data));
 	return data;
 }
 
@@ -217,8 +217,7 @@ async function generateAndSendFingerprint() {
 	// Mostra na página (debug)
 	const advDiv = document.getElementById('advancedInfo');
 	if (advDiv) {
-		advDiv.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>
-        <p>Advanced Fingerprint Hash: <code>${data.advancedHash}</code></p>`;
+		advDiv.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
 	}
 
 	// Envia pro endpoint /capture

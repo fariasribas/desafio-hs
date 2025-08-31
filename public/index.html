@@ -4,7 +4,6 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>{{pageTitle}}</title>
-		consertar isso
 		<link rel="stylesheet" href="/styles.css" />
 	</head>
 	<body>
@@ -19,9 +18,7 @@
 				<h2>{{welcomeTitle}}</h2>
 				<p>{{welcomeText}}</p>
 			</section>
-			<div id="advancedInfo">
-				<!-- Aqui será injetado o fingerprint avançado -->
-			</div>
+			<div id="advancedInfo"></div>
 			<section>
 				<h2>Últimos Produtos</h2>
 				<div class="cards">
@@ -62,8 +59,9 @@
 		<script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
 		<script src="/handlebars.js"></script>
 		<script src="/frontfingerprint.js"></script>
-		<!-- <script>
-			fetch('/', { method: 'POST' }) // ou GET, se o Worker aceitar
+		<!-- ESSE SCRIPT DEVE SER OFUSCADO!-->
+		<!-- script para teste de resposta do worker <script>
+			fetch('/', { method: 'POST' })
 				.then((res) => res.json())
 				.then(console.log);
 		</script> -->

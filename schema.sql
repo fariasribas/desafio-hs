@@ -1,5 +1,5 @@
 DROP TABLE IF EXISTS fingerprints;
-
+-- exclui tabela anterior --
 CREATE TABLE fingerprints (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   timestamp TEXT NOT NULL,

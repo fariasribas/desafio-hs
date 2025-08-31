@@ -13,8 +13,8 @@
 		"database_id": "f1623f33-3ab9-42ca-9071-62b74a84bc26"
 	  }
 	],
-	 "assets": { "directory": "./public/", "binding": "ASSETS" },
-	//"site": {"bucket": "./public"}
+	 "assets": { "directory": "./public/", "binding": "ASSETS" }, // rota para paginas em public, ignora fetch de / se existir.
+	//"site": {"bucket": "./public"} // esse bucket não sobreescreve fetch.
   }
 
 
