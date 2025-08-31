@@ -4,7 +4,7 @@ function getFingerprint() {
 
 async function renderPage() {
 	try {
-		const res = await fetch('/public/templates/template1.json');
+		const res = await fetch('/templates/template1.json');
 		const data = await res.json();
 
 		// Adiciona fingerprint
