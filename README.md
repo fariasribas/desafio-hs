@@ -9,7 +9,7 @@ O projeto utiliza uma arquitetura de camada dupla, combinando dados coletados no
 ## ✨ Principais Funcionalidades
 
 -   **🎯 Camada Dupla de Fingerprinting:** Coleta e compara dados da conexão (Worker) e do navegador (JavaScript), tornando a identificação mais precisa e resistente a spoofing.
--   **🚀 Hash de 128 bits:** Utiliza `xxhash128` para gerar hashes extremamente rápidos, consistentes e com probabilidade de colisão estatisticamente nula.
+-   **🚀 Hash de 256 bits:** Utiliza `SHA-256´ para gerar hashes extremamente consistentes e com probabilidade de colisão estatisticamente nula.
 -   **💾 Banco de Dados Estruturado (D1):** Armazena cada ponto de dados do front-end em colunas separadas, permitindo queries ricas e análises detalhadas (ex: `filtrar todos os usuários com GPU NVIDIA`).
 -   **⚙️ Painel de Admin Dinâmico:** Uma rota `/admin` protegida por autenticação que usa Handlebars para renderizar listagens e relatórios de forma leve, sem a necessidade de um framework pesado.
 -   **🧩 Arquitetura Flexível:** Suporta fontes de dados locais (mock JSON) para testes e remotas (fetch de APIs) para enriquecimento de dados, funcionando perfeitamente em ambientes de desenvolvimento e produção.
@@ -46,7 +46,7 @@ sequenceDiagram
 A captura de dados é dividida em duas camadas para máxima precisão.
 
 #### **📍 Back-end (Cloudflare Worker)**
-O Worker, por estar no Edge, captura dados puros da conexão:
+O Worker captura dados puros da conexão:
 -   **IP real** do visitante (via `CF-Connecting-IP`)
 -   **User-Agent** recebido pelo servidor
 -   **País** e **Colo** (datacenter da Cloudflare)
