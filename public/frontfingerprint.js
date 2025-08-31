@@ -1,6 +1,4 @@
-// frontfingerprint.js
-
-// Função simples de hash (substitui XXHash para exemplo)
+// funcao de hash apenas para testes
 function hashString(str) {
 	let hash = 0;
 	for (let i = 0; i < str.length; i++) {
@@ -10,10 +8,10 @@ function hashString(str) {
 	return hash.toString(16);
 }
 
-// Captura do fingerprint avançado
+// Captura do fingerprint avançado, lista tudo bota em data e hasheia
 async function getAdvancedFingerprintData() {
 	const data = {
-		userAgent: navigator.userAgent,
+		userAgent: navigator.userAgent, // importante dizer que esse useragent é diferente do back o que aumenta bits de informacao capturados
 		language: navigator.language,
 		platform: navigator.platform,
 		screen: {
@@ -38,11 +36,11 @@ async function getAdvancedFingerprintData() {
 		audioFingerprint: await getAudioFingerprint(),
 	};
 
-	data.testHash = hashString(JSON.stringify(data));
+	data.testHash = hashString(JSON.stringify(data)); //apenas de teste, nao vai para database
 	return data;
 }
 
-// Canvas fingerprint (simples)
+// Canvas fingerprint
 function getCanvasFingerprint() {
 	const canvas = document.createElement('canvas');
 	const ctx = canvas.getContext('2d');
@@ -180,7 +178,7 @@ async function getBatteryInfo() {
 	}
 }
 
-// Audio fingerprint (não usa microfone)
+// Audio fingerprint (não pede permissão)
 async function getAudioFingerprint() {
 	return new Promise((resolve) => {
 		try {
@@ -217,7 +215,8 @@ async function generateAndSendFingerprint() {
 	// Mostra na página (debug)
 	const advDiv = document.getElementById('advancedInfo');
 	if (advDiv) {
-		advDiv.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+		// MOSTRA NA PAGINA, APENAS PARA TESTE
+		// advDiv.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
 	}
 
 	// Envia pro endpoint /capture

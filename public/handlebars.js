@@ -1,16 +1,9 @@
-function getFingerprint() {
-	return 'user-' + Math.floor(Math.random() * 100000);
-}
+function getFingerprint() {}
 
 async function renderPage() {
 	try {
 		const res = await fetch('/templates/template1.json');
 		const data = await res.json();
-
-		// Adiciona fingerprint
-		data.userId = getFingerprint();
-
-		// Processa o body inteiro com Handlebars
 		const template = Handlebars.compile(document.body.innerHTML);
 		document.body.innerHTML = template(data);
 	} catch (e) {
