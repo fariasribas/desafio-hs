@@ -73,12 +73,12 @@ O sistema trabalha com três níveis de hash para análise e identificação, to
 
 ### 3. Painel de Administração (`/admin`)
 
-A rota `/admin` é protegida por **Basic Auth**, configurada via secrets no Worker. Ela usa **Handlebars** para renderizar dinamicamente a listagem dos últimos 100 fingerprints, permitindo a criação de templates HTML de forma simples e rápida, direto do Edge.
+A rota `/admin` é protegida por **Basic Auth**, configurada via secrets no Worker. 
 
 ### 4. Fontes de Dados (JSON Local/Remoto)
 
 A arquitetura foi projetada para ser flexível:
 -   **Local:** Para desenvolvimento, o Worker pode ser configurado para carregar um arquivo `.json` local que sirva como mock de dados.
--   **Remoto:** O sistema pode consumir via `fetch()` um endpoint externo, abrindo espaço para enriquecer dados com APIs de terceiros (ex: geolocalização de IP) ou comparar fingerprints de diferentes origens.
+-   **Remoto:** O sistema pode consumir via `fetch()` um endpoint externo, abrindo espaço para enriquecer dados com APIs de terceiros.
 
 ---
