@@ -4,12 +4,12 @@ export default {
 		const path = url.pathname;
 		const method = request.method;
 
-		// se a rota é raiz captura o fingerprint
+		// recebe rota do frontfingerprint e realiza o backfingerprinting (do worker)
 		if (path === '/capture' && method === 'POST') {
 			return await handleCaptureFingerprint(request, env);
 		}
 
-		// Rota de administração (com autenticação básica)
+		// Rota de administração (com autenticação básica), para segurança interessante implementar JWT.
 		if (path === '/admin' && method === 'GET') {
 			return await handleListFingerprints(request, env);
 		}
@@ -22,10 +22,10 @@ export default {
 };
 
 /**
- * captura e cria um json do fingerprint, além de criar a hash usando xxhash
+ * captura, cria e faz um insert no db do D1 do fingerprint.
  */
 async function handleCaptureFingerprint(request, env) {
-	// Bloco inicial para obter dados (sem alterações)
+	// bloco do backfingerprint (o inicial, do worker mesmo), não necessita de front.
 	const ip = request.headers.get('CF-Connecting-IP') || 'Unknown IP';
 	const userAgent = request.headers.get('User-Agent') || 'Unknown User-Agent';
 	const country = request.cf?.country ?? 'Unknown Country';
@@ -33,18 +33,18 @@ async function handleCaptureFingerprint(request, env) {
 	const tlsVersion = request.cf?.tlsVersion ?? 'Unknown TLS Version';
 	const tlsCipher = request.cf?.tlsCipher ?? 'Unknown TLS Cipher';
 	const ja3Hash = request.cf?.clientJA3Hash ?? 'Unknown JA3 Hash';
-
+	// cria hash do backfingerprint concatenando os dados coletados
 	const workerDataToHash = `${ip}|${userAgent}|${ja3Hash}|${country}|${colo}|${tlsVersion}|${tlsCipher}`;
-	// AGORA (com SHA-256):
+	// hasheia usando sha256 para evitar colisao de hashes
 	const workerHash = await createSha256Hash(workerDataToHash);
-
+	// obtem json do front
 	const frontData = await request.json();
-	// AGORA (com SHA-256):
+	//cria uma hash do json do front em sha256
 	const frontHash = await createSha256Hash(JSON.stringify(frontData));
-	// AGORA (com SHA-256):
+	//concatena hashes de front e back e cria hash 256 unica de ambos.
 	const captureHash = await createSha256Hash(workerHash + frontHash);
 
-	// Prepare stmt para inserir no DB - NOMES DAS COLUNAS CORRIGIDOS
+	// insere dados de front e back no DB do D1
 	const stmt = env.DB.prepare(`
         INSERT INTO fingerprints (
             timestamp, ip, userAgent, country, colo, tlsVersion, tlsCipher, ja3Hash,
@@ -69,7 +69,7 @@ async function handleCaptureFingerprint(request, env) {
         )
     `);
 
-	// Bind dos valores (sem alterações na lógica, apenas na ordem para corresponder ao INSERT)
+	// declara e organiza itens do fingerprint json e do back
 	await stmt
 		.bind(
 			new Date().toISOString(),
@@ -114,13 +114,14 @@ async function handleCaptureFingerprint(request, env) {
 			frontData.audioFingerprint ?? null
 		)
 		.run();
-
+	// se tudo ok retorna 200, mantive para testes, pode ser alterado para retornar em terminalç
 	return new Response(JSON.stringify({ status: 'ok', captureHash }), {
 		status: 200,
 		headers: { 'Content-Type': 'application/json' },
 	});
 }
 
+//funcao para listar fingerprints apos logado e logar em si em /admin
 async function handleListFingerprints(request, env) {
 	const authHeader = request.headers.get('Authorization');
 	if (!authHeader) {
@@ -149,14 +150,14 @@ async function handleListFingerprints(request, env) {
 		});
 	}
 }
-
+//testa e retorna se deve dar um gatekeeping ou nao
 function showAuthPopup(message = 'Acesso restrito.') {
 	return new Response(message, {
 		status: 401,
-		headers: { 'WWW-Authenticate': 'Basic realm="Área Administrativa da API"' }, //testa e retorna se deve dar um gatekeeping ou nao
+		headers: { 'WWW-Authenticate': 'Basic realm="Área Administrativa da API"' },
 	});
 }
-
+// funcao simples para hashear em sha256
 async function createSha256Hash(text) {
 	const encoder = new TextEncoder();
 	const data = encoder.encode(text);
