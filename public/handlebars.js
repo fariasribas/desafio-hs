@@ -1,6 +1,8 @@
 async function getFingerprint(source = 'internal') {
 	try {
 		let url;
+		// basta selecionar na source se quer interno ou externo pra obter o json, assim da pra fazer deploy e
+		// ir alterando sem problemas
 
 		if (source === 'internal') {
 			// JSON dentro do projeto
