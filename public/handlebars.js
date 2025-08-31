@@ -1,14 +1,33 @@
-function getFingerprint() {}
+async function getFingerprint(source = 'internal') {
+	try {
+		let url;
+
+		if (source === 'internal') {
+			// JSON dentro do projeto
+			url = '/templates/template1.json';
+		} else if (source === 'external') {
+			// JSON vindo de site externo
+			url = 'https://meu-site-externo.com/data.json';
+		} else {
+			throw new Error("Fonte inválida. Use 'internal' ou 'external'.");
+		}
+
+		const res = await fetch(url);
+		if (!res.ok) throw new Error('Erro ao buscar JSON');
+
+		return await res.json();
+	} catch (e) {
+		console.error('Erro no getFingerprint:', e);
+		return null;
+	}
+}
 
 async function renderPage() {
-	try {
-		const res = await fetch('/templates/template1.json');
-		const data = await res.json();
-		const template = Handlebars.compile(document.body.innerHTML);
-		document.body.innerHTML = template(data);
-	} catch (e) {
-		console.error('Erro ao renderizar JSON:', e);
-	}
+	const data = await getFingerprint('internal'); // ou "external"
+	if (!data) return;
+
+	const template = Handlebars.compile(document.body.innerHTML);
+	document.body.innerHTML = template(data);
 }
 
 renderPage();

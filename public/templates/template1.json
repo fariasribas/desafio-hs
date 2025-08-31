@@ -5,8 +5,6 @@
 	"headerSubtitle": "Tudo que você precisa em uma única página",
 	"welcomeTitle": "Olá, visitante!",
 	"welcomeText": "Explore produtos, notícias e informações personalizadas.",
-	"userId": "user-12345",
-	"userName": "João Silva",
 	"products": [
 		{
 			"name": "Produto 1",
@@ -31,5 +29,5 @@
 			"link": "#"
 		}
 	],
-	"footerText": "© 2025 Plataforma de Testes. Todos os direitos reservados."
+	"footerText": "© 2025 Plataforma de Testes."
 }
